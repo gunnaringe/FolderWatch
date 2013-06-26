@@ -35,6 +35,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.Install" />
@@ -47,14 +50,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FeedRetrieverSection.cs" />
-    <Compile Include="FolderWatch.cs" />
-    <Compile Include="WindowsService.cs">
+    <Compile Include="Settings\AbstractSourceElement.cs" />
+    <Compile Include="Settings\FolderWatchSection.cs" />
+    <Compile Include="Settings\SourcesConfig.cs" />
+    <Compile Include="Impl\FolderWatch.cs" />
+    <Compile Include="Service\WindowsService.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="WindowsServiceInstaller.cs">
+    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Service\WindowsServiceInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
@@ -62,7 +67,18 @@
     <None Include="App.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="install.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThirdParty\Starksoft Biko\Starksoft Biko.csproj">
+      <Project>{5f228fcd-54f1-491d-93ce-3d768655fadc}</Project>
+      <Name>Starksoft Biko</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

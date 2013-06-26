@@ -1,9 +1,8 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Configuration.Install;
 using System.ServiceProcess;
 
-namespace WindowsService
+namespace FolderWatch
 {
     [RunInstaller(true)]
     public class WindowsServiceInstaller : Installer
@@ -14,8 +13,7 @@ namespace WindowsService
         /// </summary>
         public WindowsServiceInstaller()
         {
-            ServiceProcessInstaller serviceProcessInstaller =
-                               new ServiceProcessInstaller();
+            ServiceProcessInstaller serviceProcessInstaller = new ServiceProcessInstaller();
             ServiceInstaller serviceInstaller = new ServiceInstaller();
 
             //# Service Account Information
@@ -24,12 +22,12 @@ namespace WindowsService
             serviceProcessInstaller.Password = null;
 
             //# Service Information
-            serviceInstaller.DisplayName = "FolderWatch";
+            serviceInstaller.DisplayName = WindowsService.DisplayName;
             serviceInstaller.StartType = ServiceStartMode.Automatic;
+            serviceInstaller.Description = WindowsService.Description;
 
-            //# This must be identical to the WindowsService.ServiceBase name
-            //# set in the constructor of WindowsService.cs
-            serviceInstaller.ServiceName = FolderWatch.WindowsService.ServiceNameStr;
+            // Must be equal to value in WindowsService.cs
+            serviceInstaller.ServiceName = WindowsService.ServiceNameStr;
 
             this.Installers.Add(serviceProcessInstaller);
             this.Installers.Add(serviceInstaller);

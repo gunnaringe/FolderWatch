@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FolderWatch", "FolderWatch\FolderWatch.csproj", "{617F4668-7B69-454F-B509-9859A9C3A213}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starksoft Biko", "ThirdParty\Starksoft Biko\Starksoft Biko.csproj", "{5F228FCD-54F1-491D-93CE-3D768655FADC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{617F4668-7B69-454F-B509-9859A9C3A213}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{617F4668-7B69-454F-B509-9859A9C3A213}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{617F4668-7B69-454F-B509-9859A9C3A213}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F228FCD-54F1-491D-93CE-3D768655FADC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F228FCD-54F1-491D-93CE-3D768655FADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F228FCD-54F1-491D-93CE-3D768655FADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F228FCD-54F1-491D-93CE-3D768655FADC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
