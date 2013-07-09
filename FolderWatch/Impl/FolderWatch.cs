@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using FolderWatch.Settings;
 using Starksoft.Net.Ftp;
 using log4net;
 using log4net.Repository.Hierarchy;
@@ -18,6 +19,13 @@ namespace FolderWatch
         private Timer timer;
         private bool isStarted;
 
+        private bool GetFlag(FolderWatchSection section, string key)
+        {
+            string value = section.Settings[key].Value;
+            bool result;
+            return Boolean.TryParse(value, out result) && result;
+        }
+
         public FolderWatch(Configuration config)
         {
             var folderWatchSection = config.GetSection("folderwatch") as FolderWatchSection;
@@ -27,16 +35,16 @@ namespace FolderWatch
                 return;
             }
 
-            var sourcesSection = folderWatchSection.Sources;
-            if (sourcesSection == null)
-            {
-                Log.Info("Null");
-                return;
-            }
+           if (GetFlag(folderWatchSection, "encrypt.section"))
+           {
+               Log.Debug("Section encryption is enabled");
+               StringEncryption.EncryptConfigSection(config, folderWatchSection);     
+           }
 
-            foreach (FeedElement s in sourcesSection.Feeds)
+            if (GetFlag(folderWatchSection, "encrypt.passwords"))
             {
-                Log.Info(s);
+                Log.Debug("Password encryption is enabled");
+                StringEncryption.EncryptPassword(config, folderWatchSection);
             }
 
             timer = new Timer(Callback, timer, Timeout.Infinite, Timeout.Infinite);

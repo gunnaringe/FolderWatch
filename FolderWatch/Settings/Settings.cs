@@ -9,6 +9,9 @@ namespace FolderWatch
 {
     public class FeedElement : AbstractSourceConfig
     {
+        private const string IsEncryptedLabel = "isEncrypted";
+        private const string PasswordLabel = "password";
+
         [ConfigurationProperty("hostname", IsRequired = true)]
         //[RegexStringValidator(@"https?\://\S+")]
         public string Hostname
@@ -17,9 +20,23 @@ namespace FolderWatch
             set { this["hostname"] = value; }
         }
 
+        [ConfigurationProperty(PasswordLabel, IsRequired = true)]
+        public string Password
+        {
+            get { return (string) this[PasswordLabel]; }
+            set { this[PasswordLabel] = value; }
+        }
+
+        [ConfigurationProperty(IsEncryptedLabel, IsRequired = false, DefaultValue = false)]
+        public bool IsEncrypted
+        {
+            get { return (bool) this[IsEncryptedLabel]; }
+            set { this[IsEncryptedLabel] = value;  }
+        }
+
         public override string ToString()
         {
-            return String.Format("{0} Hostname: {1}", base.ToString(), Hostname);
+            return String.Format("{0} Hostname: {1} Password: {2}", base.ToString(), Hostname, Password);
         }
     } 
 

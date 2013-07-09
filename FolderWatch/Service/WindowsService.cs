@@ -5,6 +5,7 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
+using FolderWatch.Settings;
 using log4net;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
@@ -39,7 +40,14 @@ namespace FolderWatch
         public static void Main(string[] args)
         {
             Log.Debug("Main called");
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            Configuration config = ConfigurationManager.OpenExeConfiguration("FolderWatch.exe");
+
+            var folderWatchSection = config.GetSection("folderwatch") as FolderWatchSection;
+            if (folderWatchSection == null)
+            {
+                Log.Error("No configuration has been set");
+                return;
+            }
 
             WindowsService service = new WindowsService(config);
 
