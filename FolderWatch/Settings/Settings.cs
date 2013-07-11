@@ -7,50 +7,61 @@ using System.Threading.Tasks;
 
 namespace FolderWatch
 {
-    public class FeedElement : AbstractSourceConfig
-    {
-        private const string IsEncryptedLabel = "isEncrypted";
-        private const string PasswordLabel = "password";
 
-        [ConfigurationProperty("hostname", IsRequired = true)]
-        //[RegexStringValidator(@"https?\://\S+")]
-        public string Hostname
-        {
-            get { return (string)this["hostname"]; }
-            set { this["hostname"] = value; }
-        }
-
-        [ConfigurationProperty(PasswordLabel, IsRequired = true)]
-        public string Password
-        {
-            get { return (string) this[PasswordLabel]; }
-            set { this[PasswordLabel] = value; }
-        }
-
-        [ConfigurationProperty(IsEncryptedLabel, IsRequired = false, DefaultValue = false)]
-        public bool IsEncrypted
-        {
-            get { return (bool) this[IsEncryptedLabel]; }
-            set { this[IsEncryptedLabel] = value;  }
-        }
-
-        public override string ToString()
-        {
-            return String.Format("{0} Hostname: {1} Password: {2}", base.ToString(), Hostname, Password);
-        }
-    } 
-
-    [ConfigurationCollection(typeof(FeedElement))]
-    public class FeedElementCollection : ConfigurationElementCollection
+    [ConfigurationCollection(typeof(FlowElement))]
+    public class FlowElementCollection : ConfigurationElementCollection
     {
         protected override ConfigurationElement CreateNewElement()
         {
-            return new FeedElement();
+            return new FlowElement();
         }
 
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return ((FeedElement)element).Name;
+            return ((FlowElement)element).Name;
+        }
+    }
+
+    public class FlowElement : ConfigurationElement
+    {
+        [ConfigurationProperty("name", IsKey = true, IsRequired = true)]
+        public string Name
+        {
+            get { return (string)this["name"]; }
+            set { this["name"] = value; }
+        }
+
+        [ConfigurationProperty("sourceName", IsRequired = true)]
+        public string SourceName
+        {
+            get { return (string) this["sourceName"]; }
+            set { this["sourceName"] = value; }
+        }
+
+        [ConfigurationProperty("targetName", IsRequired = true)]
+        public string TargetName
+        {
+            get { return (string) this["targetName"]; }
+            set { this["targetName"] = value; }
+        }
+
+        [ConfigurationProperty("sourceFolder", IsRequired = true)]
+        public string SourceFolder
+        {
+            get { return (string) this["sourceFolder"]; }
+            set { this["sourceFolder"] = value; }
+        }
+
+        [ConfigurationProperty("targetFolder", IsRequired = true)]
+        public string TargetFolder
+        {
+            get { return (string) this["targetFolder"]; }
+            set { this["targetFolder"] = value; }
+        }
+
+        public override string ToString()
+        {
+            return String.Format("Name: {0} Source: {1}:{2} Target{3}:{4}", Name, SourceName, SourceFolder, TargetName, TargetFolder);
         }
     }
 }

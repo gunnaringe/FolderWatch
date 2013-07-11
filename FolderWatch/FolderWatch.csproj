@@ -53,8 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Impl\Flow.cs" />
+    <Compile Include="Impl\FtpHost.cs" />
     <Compile Include="Settings\AbstractSourceElement.cs" />
+    <Compile Include="Settings\Other.cs" />
     <Compile Include="Settings\FolderWatchSection.cs" />
+    <Compile Include="Settings\Ftp.cs" />
     <Compile Include="Settings\SourcesConfig.cs" />
     <Compile Include="Impl\FolderWatch.cs" />
     <Compile Include="Service\WindowsService.cs">

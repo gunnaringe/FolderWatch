@@ -19,7 +19,7 @@ namespace FolderWatch.Settings
 
         public static void EncryptPassword(Configuration config, FolderWatchSection section)
         {
-            foreach (FeedElement source in section.Sources.Feeds)
+            foreach (FtpElement source in section.Sources.Ftps)
             {
                 if (!source.IsEncrypted)
                 {

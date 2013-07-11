@@ -5,12 +5,20 @@ namespace FolderWatch
     public class SourcesConfig : ConfigurationElement
     {
         private const string FTPLabel = "ftp";
+        private const string OtherLabel = "other";
 
-        [ConfigurationProperty(FTPLabel, IsDefaultCollection = true)]
-        public FeedElementCollection Feeds
+        [ConfigurationProperty(FTPLabel, IsDefaultCollection = false)]
+        public FtpElementCollection Ftps
         {
-            get { return (FeedElementCollection)this[FTPLabel]; }
+            get { return (FtpElementCollection)this[FTPLabel]; }
             set { this[FTPLabel] = value; }
+        }
+
+        [ConfigurationProperty(OtherLabel, IsDefaultCollection = false)]
+        public OtherElementCollection Others
+        {
+            get { return (OtherElementCollection) this[OtherLabel]; }
+            set { this[OtherLabel] = value; }
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using FolderWatch.Impl;
 using FolderWatch.Settings;
 using Starksoft.Net.Ftp;
 using log4net;
@@ -47,7 +48,33 @@ namespace FolderWatch
                 StringEncryption.EncryptPassword(config, folderWatchSection);
             }
 
-            timer = new Timer(Callback, timer, Timeout.Infinite, Timeout.Infinite);
+
+            // Get list of all hosts
+            var hosts = new Dictionary<String, Host> { {"local", new LocalHost()} };
+
+            foreach (FtpElement ftp in folderWatchSection.Sources.Ftps)
+            {
+                hosts[ftp.Name] = new FtpHost(ftp);
+            }
+
+            foreach (OtherElement e in folderWatchSection.Sources.Others)
+            {
+                hosts[e.Name] = new OtherHost(e);
+            }
+            
+            foreach (string host in hosts.Keys)
+            {
+                Log.DebugFormat("Host name: {0}", host);
+            }
+
+            var flows = new List<Flow>();
+            foreach (FlowElement flowSetting in folderWatchSection.Flows)
+            {
+                Flow flow = new Flow(hosts, flowSetting);
+                flows.Add(flow);
+            }
+
+            timer = new Timer(Callback, flows, Timeout.Infinite, Timeout.Infinite);
         }
 
         public void Start()
@@ -73,16 +100,22 @@ namespace FolderWatch
             }
         }
 
-        private void Callback(object state)
+        private void Callback(object flowsObj)
         {
+            var flows = flowsObj as List<Flow>;
+            if (flows == null)
+            {
+                Log.Error("Settings not set");
+                return;
+            }
+
             Log.Info("Callback invoked");
-            //FtpClient ftp = new FtpClient
-            //                    {
-            //                        Host = @"ftp.mozilla.org/pub/mozilla.org/",
-            //Port = 22,
-            //                    };
-            //ftp.Open("anonymous", "gunnaringe@gmail.com");
-            //Log.WarnFormat("Num files: {0}", ftp.GetDirList().Count);
+
+            foreach (Flow flow in flows)
+            {
+                Log.InfoFormat("Flow: {0}", flow);
+                flow.Run();
+            }
 
             Thread.Sleep(4000);
             timer.Change(1000, Timeout.Infinite);
